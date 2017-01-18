@@ -3,18 +3,17 @@ package web
 import (
 	"encoding/gob"
 	"encoding/json"
-	"fmt"
 	"html/template"
 	"io"
 	"net/http"
-	"strings"
+	"math/rand"
 
 	log "github.com/Sirupsen/logrus"
 	"github.com/gorilla/mux"
 	"github.com/gorilla/sessions"
-	"github.com/hack4impact/transcribe4all/config"
-	"github.com/hack4impact/transcribe4all/tasks"
-	"github.com/hack4impact/transcribe4all/transcription"
+	"github.com/dzhang55/go-torch/config"
+	"github.com/dzhang55/go-torch/tasks"
+	"github.com/dzhang55/go-torch/transcription"
 )
 
 type route struct {
@@ -40,13 +39,13 @@ var routes = []route{
 		"add_job",
 		"POST",
 		"/add_job",
-		initiateTranscriptionJobHandler,
+		initiateImageJobHandler,
 	},
 	route{
 		"add_job_json",
 		"POST",
 		"/add_job_json",
-		initiateTranscriptionJobHandlerJSON,
+		initiateImageJobHandlerJSON,
 	},
 	route{
 		"health",
@@ -78,9 +77,9 @@ func init() {
 	gob.Register(&flash{})
 }
 
-// initiateTranscriptionJobHandlerJSON takes a POST request containing a json object,
+// initiateImageJobHandlerJSON takes a POST request containing a json object,
 // decodes it into a transcriptionJobData struct, and starts a transcription task.
-func initiateTranscriptionJobHandlerJSON(w http.ResponseWriter, r *http.Request) {
+func initiateImageJobHandlerJSON(w http.ResponseWriter, r *http.Request) {
 	jsonData := new(transcriptionJobData)
 
 	// unmarshal from the response body directly into our struct
@@ -93,14 +92,24 @@ func initiateTranscriptionJobHandlerJSON(w http.ResponseWriter, r *http.Request)
 	executer.QueueTask(transcription.MakeIBMTaskFunction(jsonData.AudioURL, jsonData.EmailAddresses, jsonData.SearchWords))
 }
 
-// initiateTranscriptionJobHandler takes a POST request from a form,
+// initiateImageJobHandler takes a POST request from a form,
 // decodes it into a transcriptionJobData struct, and starts a transcription task.
-func initiateTranscriptionJobHandler(w http.ResponseWriter, r *http.Request) {
-	executer := tasks.DefaultTaskExecuter
-	emails := strings.Split(r.FormValue("emails"), ",")
-	words := strings.Split(r.FormValue("words"), ",")
-	log.Println(emails, words, len(emails), len(words))
-	id := executer.QueueTask(transcription.MakeIBMTaskFunction(r.FormValue("url"), emails, words))
+func initiateImageJobHandler(w http.ResponseWriter, r *http.Request) {
+	// executer := tasks.DefaultTaskExecuter
+	// TODO: Use emails to email results
+	// emails := strings.Split(r.FormValue("emails"), ",")
+
+	// TODO: Classify the image as a torch or not.
+	// id := executer.QueueTask(transcription.MakeIBMTaskFunction(r.FormValue("url"), emails, words))
+	random := rand.Float32()
+	output := ""
+	if random < 0.33 {
+		output = "This is definitely a very cool torch!"
+	} else if random < 0.66 {
+		output = "This torch makes me want to wet my bed!"
+	} else {
+		output = "This is not a torch."
+	}
 
 	session, err := store.Get(r, flashSession)
 	if err != nil {
@@ -108,8 +117,8 @@ func initiateTranscriptionJobHandler(w http.ResponseWriter, r *http.Request) {
 	}
 
 	session.AddFlash(flash{
-		Title: "Task Started!",
-		Body:  fmt.Sprintf("Task %s was successfully started. The results will be emailed to you upon completion.", id),
+		Title: "Profiling Successful!",
+		Body:  output,
 	})
 	session.Save(r, w)
 

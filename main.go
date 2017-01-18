@@ -8,8 +8,8 @@ import (
 	"os"
 
 	log "github.com/Sirupsen/logrus"
-	"github.com/hack4impact/transcribe4all/config"
-	"github.com/hack4impact/transcribe4all/web"
+	"github.com/dzhang55/go-torch/config"
+	"github.com/dzhang55/go-torch/web"
 )
 
 func init() {

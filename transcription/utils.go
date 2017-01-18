@@ -23,7 +23,7 @@ import (
 	"github.com/jordan-wright/email"
 	"github.com/juju/errors"
 
-	"github.com/hack4impact/transcribe4all/config"
+	"github.com/dzhang55/go-torch/config"
 )
 
 // SendEmail connects to an email server at host:port and sends an email from

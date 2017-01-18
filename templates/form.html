@@ -7,7 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
 
      <!-- Site Properties -->
-    <title>Transcribe4All</title>
+    <title>Go-Torch</title>
     <link rel="stylesheet" type="text/css" href="static/semantic/semantic.min.css">
     <link rel="stylesheet" type="text/css" href="static/semantic-tokenfield/semantic-tokenfield.min.css">
     <link rel="icon" type="image/png" href="static/logo.png"/>
@@ -25,8 +25,8 @@
         padding-bottom: 50px;
         position: relative;
       }
-      .image {
-        margin-top: -100px;
+      #torch {
+        margin-top: 100 px;
       }
       .column {
         max-width: 450px;
@@ -52,7 +52,6 @@
                 .closest('.message')
                 .transition('fade');
             });
-        // $('#emails').tokenfield();
       })
     ;
     </script>
@@ -60,10 +59,10 @@
 <body>
 <div id="mainContent" class="ui middle aligned center aligned grid">
   <div class="column">
-    <h2 class="ui blue image header">
-      <img src="static/logo.png" class="image">
+    <h2 class="ui red image header">
+      <img id="torch" src="static/torch.png" class="image">
       <div class="content">
-        Transcribe4All
+        Go-Torch
       </div>
     </h2>
     <form class="ui large form" action="/add_job" method="POST">
@@ -71,19 +70,7 @@
         <div class="field">
           <div class="ui left icon input">
             <i class="file audio outline icon"></i>
-            <input type="url" name="url" placeholder="Audio URL">
-          </div>
-        </div>
-        <div class="field">
-          <div class="ui left icon input">
-            <i class="mail icon"></i>
-            <input type="email" id="emails" name="emails" placeholder="E-mail addresses (comma separated)" multiple>
-          </div>
-        </div>
-        <div class="field">
-          <div class="ui left icon input">
-            <i class="search icon"></i>
-            <input type="text" id="words" name="words" placeholder="Search words (comma separated)" multiple>
+            <input type="url" name="url" placeholder="Image URL">
           </div>
         </div>
       </div>
@@ -101,11 +88,15 @@
       {{end}}
 
     </form>
+    <div class="ui segment">
+      <img class="ui tiny centered image" src="static/ben.png">
+      <p>Hi! My name is Ben Sandler and this is my beloved go-torch! It is a stochastic flame profiler written in Go. Attach an image file and go-torch will stochastically (i.e. random) profile it! Curious if your image is a torch or not? If it is, is the torch cool or is it lame? Go-torch will help you find out once and for all!</p>
+    </div>
   </div>
 </div>
 <div class="ui fixed bottom sticky inverted vertical footer segment">
   <div class="ui center aligned container">
-    <p>Made with <i class="heart red icon"></i>by <a href="http://hack4impact.org/" target="_blank">Hack4Impact</a></p>
+    <p>Made with <i class="heart red icon"></i>by <a href="http://www.facebook.com/ben1sandler/" target="_blank">Ben Sandler</a> and maybe <a href="https://www.google.com/webhp?q=ben%20sandler%27s%20best%20friend" target="_blank">Daniel Zhang</a></p>
   </div>
 </div>
 </body>
